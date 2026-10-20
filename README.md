@@ -1,12 +1,12 @@
-# Automated Marine Habitat Suitability Modelling - Sola Municipality, Norway
+# Automated Marine Habitat Suitability Modelling and Hotspot Analysis - Sola Municipality, Norway
 
 ## Overview
 
-This project demonstrates a Python-based workflow for automated marine habitat suitability modelling using environmental raster datasets and the Norwegian Nature in Norway (NiN3) marine habitat framework.
+This project demonstrates an end-to-end Python GIS workflow for automated marine habitat suitability modelling, habitat richness assessment, and hotspot analysis.
 
-The workflow uses bathymetry, slope, wave exposure, light availability, and substrate data to predict the potential distribution of 21 marine habitat types in Sola Municipality, Norway.
+Using environmental raster datasets and habitat-specific suitability criteria, 21 marine NiN3 habitat types were modelled for Sola Municipality, Norway. Individual suitability layers were combined to generate a habitat richness map and a Getis-Ord Gi* hotspot analysis was performed to identify clusters of habitat-rich areas.
 
-All habitat models are generated automatically in Python and combined into a marine habitat richness map to identify areas with high potential biodiversity value.
+The project showcases how Python can automate GIS workflows traditionally performed manually in desktop GIS software.
 
 ---
 
@@ -14,43 +14,44 @@ All habitat models are generated automatically in Python and combined into a mar
 
 **Sola Municipality, Rogaland, Norway**
 
-The study focuses on the marine and coastal environment of Sola Municipality and demonstrates habitat suitability modelling as a pre-fieldwork decision-support tool for marine habitat assessment.
+The study focuses on the marine and coastal environment of Sola Municipality and demonstrates how spatial modelling can support marine habitat assessment and biodiversity prioritization.
 
 ---
 
 ## Project Objectives
 
 - Automate marine habitat suitability modelling using Python
-- Apply NiN3-based habitat rules to environmental rasters
+- Apply NiN3-based habitat suitability rules
 - Generate suitability maps for 21 marine habitat types
-- Create a combined habitat richness map
+- Create a marine habitat richness map
+- Perform Getis-Ord Gi* hotspot analysis
 - Identify potential biodiversity priority areas
-- Develop a reproducible GIS workflow for marine habitat assessment
+- Develop a reproducible GIS workflow
 
 ---
 
-## Input Data
+## Input Environmental Variables
 
-The analysis uses five environmental variables:
+The analysis utilizes five environmental raster datasets:
 
 ### Bathymetry
-Water depth raster used to define habitat depth ranges.
+Depth information used to define habitat-specific depth ranges.
 
 ### Slope
-Seafloor slope derived from bathymetry.
+Seafloor slope derived from bathymetric data.
 
 ### Wave Exposure
-Wave exposure classes representing hydrodynamic conditions.
+Hydrodynamic exposure classes representing wave conditions.
 
 ### Light Availability
-Light penetration layer used to identify suitable depth-light relationships.
+Environmental suitability based on underwater light penetration.
 
 ### Substrate
-Seafloor substrate classification used to distinguish habitat preferences.
+Seafloor substrate classification used to define habitat preferences.
 
 ---
 
-## Workflow
+## GIS Workflow
 
 ```text
 Environmental Variables
@@ -60,16 +61,19 @@ Environmental Variables
 Raster Alignment
                     │
                     ▼
-Suitability Modelling
-                    │
-                    ▼
-21 Marine Habitat Maps
+21 Habitat Suitability Models
                     │
                     ▼
 Habitat Richness Map
                     │
                     ▼
-Hotspot Analysis
+Raster-to-Point Conversion
+                    │
+                    ▼
+GeoPandas & PySAL
+                    │
+                    ▼
+Getis-Ord Gi* Hotspot Analysis
                     │
                     ▼
 Priority Marine Areas
@@ -102,7 +106,7 @@ Priority Marine Areas
 - NT-07 Flatøstersbunn
 - NT-08 O-skjellbunn
 
-### Geomorphic and Topographic Habitats
+### Topographic and Geomorphic Habitats
 
 - NT-01 Litoralbassengbunn
 - NT-04 Litoral bergvegg
@@ -114,42 +118,48 @@ Priority Marine Areas
 
 ---
 
-## Methods
+## Methodology
 
-### Data Preparation
+### 1. Data Preparation
 
-All raster datasets were:
+Environmental raster datasets were:
 
-- Reprojected to a common coordinate system
-- Aligned to a shared raster grid
-- Resampled to matching cell size and extent
-- Prepared for suitability modelling
+- Loaded in Python
+- Checked for spatial consistency
+- Aligned to a common grid
+- Resampled to matching extent and resolution
 
-### Habitat Suitability Modelling
+### 2. Habitat Suitability Modelling
 
-Each habitat type was represented as a binary suitability model:
+Each habitat type was modelled using habitat-specific environmental thresholds.
+
+Suitability outputs were generated as binary rasters:
 
 ```text
-1 = Suitable
-0 = Unsuitable
+1 = Suitable Habitat
+0 = Unsuitable Habitat
 ```
 
-Suitability criteria were applied using environmental thresholds derived from habitat-specific ecological requirements.
+### 3. Habitat Richness Analysis
 
-### Habitat Richness Analysis
-
-All habitat layers were combined:
+All habitat models were combined into a single richness raster:
 
 ```text
 Richness =
 NT01 + NT02 + NT03 + ... + NT32
 ```
 
-The resulting richness raster represents the number of overlapping habitat types per cell.
+The resulting richness map represents the number of habitat types occurring at each location.
 
-### Hotspot Analysis
+### 4. Hotspot Analysis
 
-Richness patterns were analysed to identify areas with concentrated habitat diversity and potential priority survey locations.
+Habitat richness values were converted to points and analysed using:
+
+- GeoPandas
+- PySAL
+- Getis-Ord Gi*
+
+The analysis identifies spatial clusters of habitat-rich areas and highlights potential biodiversity hotspots.
 
 ---
 
@@ -157,84 +167,150 @@ Richness patterns were analysed to identify areas with concentrated habitat dive
 
 ### Habitat Suitability Maps
 
-- 21 individual habitat suitability layers
-- Binary raster outputs for each habitat type
+Generated:
+
+- 21 individual marine habitat suitability layers
+- Binary habitat presence/absence maps
 
 ### Habitat Richness Map
 
-The habitat richness analysis identified locations where multiple marine habitat types overlap, highlighting areas of elevated ecological importance.
+The combined richness raster reveals areas where multiple habitat types overlap and where ecological diversity is potentially highest.
 
-### Hotspot Map
+### Getis-Ord Gi* Hotspot Analysis
 
-Hotspot analysis identified clusters of high habitat richness that may represent priority areas for field surveys, habitat verification, and conservation planning.
+Hotspot analysis identified spatial patterns in habitat richness and highlighted areas exhibiting elevated clustering of habitat diversity.
 
 ---
 
-## Technical Implementation
-
-### Python Libraries
-
-- Rasterio
-- NumPy
-- Matplotlib
-- SciPy
-- Jupyter Notebook
+## Technologies Used
 
 ### GIS Software
 
 - QGIS
 - QGIS Model Builder
-- Python GIS Automation
+
+### Python Libraries
+
+- Rasterio
+- NumPy
+- GeoPandas
+- PySAL
+- SciPy
+- Matplotlib
+- Pandas
+- Jupyter Notebook
 
 ---
 
 ## Skills Demonstrated
 
-### GIS Skills
+### GIS Analysis
 
-- Habitat suitability modelling
-- Marine habitat assessment
-- Raster processing
-- Spatial analysis
-- Biodiversity mapping
-- Environmental modelling
+- Habitat Suitability Modelling
+- Raster Processing
+- Spatial Analysis
+- Biodiversity Mapping
+- Environmental Modelling
+- Marine GIS
 
-### Python Skills
+### Python GIS
 
-- GIS workflow automation
-- Raster alignment
-- Spatial data processing
-- Map generation
-- Reproducible analysis
-- Batch habitat modelling
+- Rasterio
+- GeoPandas
+- PySAL
+- NumPy
+- Spatial Statistics
+- Jupyter Notebook Workflows
 
-### Spatial Analysis Skills
+### GIS Automation
 
-- Multi-criteria suitability analysis
-- Habitat richness mapping
-- Hotspot analysis
-- Environmental variable integration
+- Automated Raster Alignment
+- Automated Habitat Modelling
+- Batch GIS Processing
+- Habitat Richness Mapping
+- Automated Spatial Analysis
+
+### Spatial Statistics
+
+- Getis-Ord Gi* Hotspot Analysis
+- Spatial Weights Construction
+- Point-Based Spatial Analysis
+- Cluster Detection
 
 ---
 
 ## Key Achievement
 
-Developed an automated Python workflow capable of:
+Developed a fully automated Python workflow capable of:
 
-- Loading environmental rasters
-- Aligning spatial datasets
-- Generating 21 NiN3 habitat suitability maps
+- Loading environmental raster datasets
+- Aligning spatial layers
+- Generating 21 marine habitat suitability models
 - Creating habitat richness maps
-- Performing hotspot analysis
-- Producing repeatable habitat assessment outputs
+- Performing Getis-Ord Gi* hotspot analysis
+- Exporting GIS-ready outputs
 
-This workflow demonstrates how Python can be used to automate marine habitat modelling processes traditionally performed manually within GIS software.
+This project demonstrates the integration of raster GIS, vector GIS, spatial statistics, and automation within a reproducible Python workflow.
 
 ---
 
 ## Repository Structure
 
 ```text
-python_automated_marine_habitat_modelling_sola
+sola-marine-habitat-modelling
 │
-├── notebooks
+├── notebooks/
+│   └── Automated_Habitat_Suitability_Sola.ipynb
+│
+├── figures/
+│   ├── richness_map.png
+│   ├── hotspot_map.png
+│   └── nt14_example.png
+│
+├── outputs/
+│   ├── richness.tif
+│   ├── hotspot_points.gpkg
+│   └── habitat_rasters/
+│
+├── docs/
+│   └── Sola_Expression.xlsx
+│
+└── README.md
+```
+
+---
+
+## Data Availability
+
+Original environmental raster datasets are not included in this repository due to file size and data ownership considerations.
+
+The workflow can be reproduced using equivalent raster datasets representing:
+
+- Bathymetry
+- Slope
+- Wave Exposure
+- Light Availability
+- Substrate
+
+---
+
+## Future Improvements
+
+Potential future developments include:
+
+- One-click habitat modelling tools
+- Automated reporting
+- Interactive web mapping
+- Regional-scale habitat modelling
+- Species observation integration
+- Machine learning habitat prediction
+
+---
+
+## Author
+
+**Arjuman Banu**
+
+GIS | Marine Habitat Modelling | Spatial Analysis | Python GIS Automation
+
+This project demonstrates the application of Python-based GIS automation for marine habitat suitability modelling, habitat richness mapping, and spatial hotspot analysis.
