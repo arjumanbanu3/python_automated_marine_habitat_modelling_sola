@@ -171,14 +171,20 @@ Generated:
 
 - 21 individual marine habitat suitability layers
 - Binary habitat presence/absence maps
-
+  
 ### Habitat Richness Map
 
 The combined richness raster reveals areas where multiple habitat types overlap and where ecological diversity is potentially highest.
 
+<img width="2083" height="1997" alt="richness_map" src="https://github.com/user-attachments/assets/84b689a9-51bf-4e48-8d9e-ec291ff9f3d6" />
+
+
 ### Getis-Ord Gi* Hotspot Analysis
 
 Hotspot analysis identified spatial patterns in habitat richness and highlighted areas exhibiting elevated clustering of habitat diversity.
+
+<img width="2467" height="2433" alt="hotspot_map" src="https://github.com/user-attachments/assets/04878160-c4ec-49f8-ba71-896776c7a33a" />
+
 
 ---
 
